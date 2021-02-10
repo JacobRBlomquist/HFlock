@@ -6,14 +6,16 @@ const app = express();
 const port = process.env.PORT || 8999;
 
 
+app.use(express.static(__dirname+'/public'));
+
+//WEBSERVER
+app.use("/",webRouter);
 
 //initialize a simple http server
 const server = app.listen(port,()=>{
     console.log(`Server started on port ${port}`);
 }) 
 
-//WEBSERVER
-app.use("/",webRouter);
 
 //initialize the WebSocket server instance
 const wss = new WebSocket.Server({ server });
