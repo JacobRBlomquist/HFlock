@@ -1,0 +1,22 @@
+{
+  "name": "streamflock",
+  "version": "0.0.1",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./node_modules/.bin/tsc",
+    "start": "nodemon dist/server/server.js"
+  },
+  "author": "Jacob Blomquist",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "ws": "^7.4.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.11",
+    "@types/ws": "^7.4.0",
+    "nodemon": "^2.0.7",
+    "typescript": "^4.1.4"
+  }
+}
