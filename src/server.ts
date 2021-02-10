@@ -1,11 +1,10 @@
 import * as express from 'express';
-import * as http from 'http';
 import * as WebSocket from 'ws';
-import * as net from 'net';
+import {webRouter} from "./webRoutes";
 
 const app = express();
-const router = express.Router();
 const port = process.env.PORT || 8999;
+
 
 
 //initialize a simple http server
@@ -14,11 +13,7 @@ const server = app.listen(port,()=>{
 }) 
 
 //WEBSERVER
-router.get("/",(req,res)=>{
-    res.json({status:"App is running"});
-})
-
-app.use("/",router);
+app.use("/",webRouter);
 
 //initialize the WebSocket server instance
 const wss = new WebSocket.Server({ server });
@@ -83,13 +78,10 @@ wss.on('connection', (ws: WebSocket) => {
 });
 
 setInterval(() => {
-    console.log("CALLBAK");
     wss.clients.forEach((ws: WebSocket) => {
 
         const extWs = ws as ExtWebSocket;
-        console.log("CUR:",extWs.isAlive);
         if (!extWs.isAlive) {
-            console.log(`Client disconnected.`);
             return ws.terminate();
         }
 
