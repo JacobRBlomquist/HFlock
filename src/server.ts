@@ -34,21 +34,29 @@ export class Message {
     ) { }
 }
 
-wss.on('connection', (ws: WebSocket) => {
+
+wss.on('connection', (ws: WebSocket,request) => {
 
     const extWs = ws as ExtWebSocket;
-
+    console.log(request.socket.remoteAddress,request.socket.remotePort);
     extWs.isAlive = true;
 
     ws.on('pong', () => {
-        console.log("PONG")
         extWs.isAlive = true;
     });
 
     //connection is up, let's add a simple simple event
     ws.on('message', (msg: string) => {
 
-        const message = JSON.parse(msg) as Message;
+        let message:Message;
+
+        try{
+        message = JSON.parse(msg) as Message;
+
+        }catch (e){
+            ws.send(JSON.stringify({type:"Error",message:"Malformed request"}))
+            return;
+        }
 
         setTimeout(() => {
             if (message.isBroadcast) {
